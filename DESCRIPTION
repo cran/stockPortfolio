@@ -1,8 +1,8 @@
 Package: stockPortfolio
 Type: Package
 Title: Build stock models and analyze stock portfolios.
-Version: 1.0
-Date: 2009-10-21
+Version: 1.1
+Date: 2010-04-13
 Author: David Diez and Nicolas Christou
 Maintainer: David Diez <david.m.diez@gmail.com>
 Description: Download stock data, build single index, constant
@@ -12,6 +12,6 @@ Description: Download stock data, build single index, constant
         portfolio on a data set is also provided.
 License: GPL-2
 LazyLoad: yes
-Packaged: Thu Oct 29 14:59:48 2009; diez
+Packaged: 2010-04-13 21:03:24 UTC; diez
 Repository: CRAN
-Date/Publication: 2009-11-01 16:17:46
+Date/Publication: 2010-04-15 13:50:08

@@ -14,7 +14,7 @@ function(x, xlab='Risk', ylab='Return', main='Risk and Return of Stocks', addNam
 	} else {
 		plot(pR, xlab=xlab, ylab=ylab, main=main, addNames=addNames, pos=pos, xlim=xlim, ylim=ylim, col=col, pch=pch, type=type, ...)
 		if(!noOptPort){
-			points(x$risk, x$R, col=colOP, pch=pchOP, type=type, ...)
+			points(x$risk, x$R, col=colOP, pch=pchOP, type=type)
 		}
 	}
 }

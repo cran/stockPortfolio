@@ -1,5 +1,10 @@
 `portPossCurve` <-
 function(model, riskRange=2, detail=100, effFrontier=FALSE, add=FALSE, type='l', xlab='Risk', ylab='Expected Return', doNotPlot=FALSE, ...){
+	#===> must have short-selling <===#
+	if(!model$shorts){
+		stop("Short selling must be permitted for portCloud.\n")
+	}
+	
 	#===> prevent multiple warnings in optimalPort <===#
 	if(!model$shorts & model$model %in% 'none'){
 		model$shorts <- TRUE

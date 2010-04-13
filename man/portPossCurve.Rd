@@ -2,7 +2,7 @@
 \alias{portPossCurve}
 \title{Plot the portfolio possibilities curve}
 \description{
-Plot the portfolio possibilities curve or the efficient frontier.
+Plot the portfolio possibilities curve or the efficient frontier for models that permit short-selling.
 }
 \usage{
 portPossCurve(model, riskRange = 2, detail = 100, effFrontier = FALSE, add = FALSE, type = "l", xlab = "Risk", ylab = "Expected Return", doNotPlot = FALSE, ...)

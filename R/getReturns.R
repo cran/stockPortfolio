@@ -16,7 +16,7 @@ get=c('overlapOnly', 'all'), start='1970-01-01', end=NULL){
 	n <- length(ticker)
 	startURL <- 'http://ichart.finance.yahoo.com/table.csv?s='
 	URL <- r <- dates <- list()
-	minDate <- as.Date('2500-01-01')
+	minDate <- as.Date('2499-12-31')
 	start <- stripDate(start)
 	if(start[1] == 'unreadableDate'){
 		stop('Cannot read the start date.\n')

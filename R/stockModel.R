@@ -76,7 +76,7 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 		rn    <- rownames(stockReturns)
 		cn    <- colnames(stockReturns)
 		start <- ifelse(is.null(rn[1]), start, rn[1])
-		end   <- ifelse(is.null(end), rn[2], end)
+		end   <- ifelse(is.null(end), rev(rn)[1], end)
 		period <- freq[1]
 		if(is.null(cn)[1]){
 			Ticker <- NA

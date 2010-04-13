@@ -17,7 +17,7 @@ getReturns(ticker, freq = c("month", "week", "day"), get = c("overlapOnly", "all
   \item{freq}{ The frequency of the stock data to be downloaded. Default is \code{"month"} for 12 observations per year and other options are \code{"week"} and \code{"day"}.}
   \item{get}{ The default, \code{"overlapOnly"}, will return the stock returns for which all stocks had data and drop any dates with \code{NA}; if it is monthly data, minor corrections are made when appropriate. The \code{"all"} option yields all stock returns regardless of whether data for all stocks is available; stock data obtained under the \code{"all"} option may not work in the other functions in this package if \code{NA} values are present.}
   \item{start}{ Start date in the format \code{"YYYY-MM-DD"}.}
-  \item{end}{ End date in the format \code{"YYYY-MM-DD"}.}
+  \item{end}{ End date in the format \code{"YYYY-MM-DD"}. If using \code{freq="month"} (the default) or \code{freq="week"}, the \code{DD} should be specified as the last day of the month or week, respectively.}
 }
 \value{
   \code{getReturns} outputs an object of class \code{"stockReturns"}, which is a list of the following:

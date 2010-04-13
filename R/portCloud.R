@@ -1,5 +1,10 @@
 `portCloud` <-
 function(model, riskRange=2, detail=25, N=3000, add=TRUE, col=c('#55550044'), pch=20, subSamp=1000, xlim='default', ylim='default', xlab='Risk', ylab='Return', ...){
+	#===> must have short-selling <===#
+	if(!model$shorts){
+		stop("Short selling must be permitted for portCloud.\n")
+	}
+	
 	#===> identifying how to distribute points <===#
 	n   <- length(model$R)
 	ppc <- portPossCurve(model, riskRange=riskRange, detail=detail, doNotPlot=TRUE)
@@ -45,14 +50,14 @@ function(model, riskRange=2, detail=25, N=3000, add=TRUE, col=c('#55550044'), pc
 	if(add){
 		points(portMat, col=col, pch=pch, ...)
 	} else {
-		if(xlim=='default'){
+		if(xlim[1] == 'default'){
 			xMin <- min(portMat[,1])
 			xlim <- c(xMin, riskRange*xMin)
-			if(ylim=='default'){
+			if(ylim[1] == 'default'){
 				ylim <- range(portMat[portMat[,1] < xlim[2],2])
 				ylim <- ylim + c(-1,1)*diff(ylim)/20
 			}
-		} else if(ylim == 'default'){
+		} else if(ylim[1] == 'default'){
 			ylim <- range(portMat[,2])
 		}
 		plot(portMat, col=col, pch=pch, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
