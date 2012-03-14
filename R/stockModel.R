@@ -8,7 +8,9 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 	tM <- list()
 	class(tM) <- "stockModel"
 	tM$model <- model[1]
-	if(is.numeric(tM$model)){ tM$model <- c('none','SIM','CCM','MGM')[tM$model] }
+	if(is.numeric(tM$model)){
+		tM$model <- c('none','SIM','CCM','MGM','MIM')[tM$model]
+	}
 	tM$ticker  <- NA
 	tM$index   <- ifelse(is.null(index), NA, index)
 	tM$theIndex <- NA
@@ -23,7 +25,8 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 	tM$R      <- NA
 	tM$COV    <- NA
 	tM$sigma  <- NA
-	tM$shorts <- ifelse(shortSelling[1] %in% c('y','yes','Y','Yes','YES',TRUE), TRUE, FALSE)
+	temp      <- c('y','yes','Y','Yes','YES',TRUE)
+	tM$shorts <- ifelse(shortSelling[1] %in% temp, TRUE, FALSE)
 	tM$Rf     <- Rf
 	tM$alpha  <- NA
 	tM$vAlpha <- NA
@@ -37,16 +40,17 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 	
 	#===> error preventing <===#
 	if(model[1] == 'SIM'){
-		if(is.null(index)){
+		if(is.null(index)[1]){
 			stop('Variable "index" is required for the single index model.')
 		}
+		index <- index[1]
+	#} else if(model[1] == 'MIM'){
+	#	if(is.null(index)[1]){
+	#		stop('Variable "index" is required for the multi-index model.')
+	#	}
 	} else if(tM$model == 'MGM'){
 		if(is.null(tM$industry)[1]){
 			stop('Variable "industry" is required for the multigroup model.')
-		}
-		if(!tM$shorts){
-			warning('Short sales are always permitted under the multigroup model.')
-			tM$shorts <- TRUE
 		}
 	} else if(tM$model == 'none' & !tM$shorts){
 		warning('Short sales are always permitted when no model is specified.')
@@ -69,14 +73,15 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 			stockReturns <- stockReturns[n:1,]
 		}
 		if(rawStockPrices){ # make into return data
-			rn <- rownames(stockReturns)[1:(n-1)]
-			stockReturns <- (stockReturns[-n,]-stockReturns[-1,])/stockReturns[-1,]
+			rn           <- rownames(stockReturns)[1:(n-1)]
+			temp         <- stockReturns[-n,]-stockReturns[-1,]
+			stockReturns <- temp/stockReturns[-1,]
 			rownames(stockReturns) <- rn
 		}
-		rn    <- rownames(stockReturns)
-		cn    <- colnames(stockReturns)
-		start <- ifelse(is.null(rn[1]), start, rn[1])
-		end   <- ifelse(is.null(end), rev(rn)[1], end)
+		rn     <- rownames(stockReturns)
+		cn     <- colnames(stockReturns)
+		start  <- ifelse(is.null(rn[1]), start, rn[1])
+		end    <- ifelse(is.null(end), rev(rn)[1], end)
 		period <- freq[1]
 		if(is.null(cn)[1]){
 			Ticker <- NA
@@ -113,9 +118,9 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 		}
 		tM$ticker <- tM$ticker[-drop]
 	}
-	tM$R   <- apply(tM$returns, 2, mean)
-	tM$COV <- cov(tM$returns)
-	tM$n   <- dim(tM$returns)[1]
+	tM$R     <- apply(tM$returns, 2, mean)
+	tM$COV   <- cov(tM$returns)
+	tM$n     <- dim(tM$returns)[1]
 	tM$sigma <- sqrt(diag(tM$COV))
 	if(!is.na(tM$index)){
 		tM$marketReturns <- as.matrix(tM$returns[,index],ncol=1)
@@ -161,7 +166,7 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 		diag(tM$COV) <- 1
 		tM$COV <- t(t(tM$COV * tM$sigma) * tM$sigma)
 	}
-	if(tM$model == 'MGM'){
+	if(tM$model == 'MGM' && tM$shorts){
 		tM$rho <- getCorr(tM$COV, tM$industry)
 		theMatch <- match(tM$industry, unique(tM$industry))
 		tM$COV <- tM$rho[theMatch, theMatch]
@@ -169,7 +174,40 @@ function(stockReturns, drop=NULL, Rf=0, shortSelling=c('y','n'), model=c('none',
 		tM$COV <- t(t(tM$COV * tM$sigma) * tM$sigma)
 		colnames(tM$COV) <- tM$ticker
 		rownames(tM$COV) <- tM$ticker
+	} else if(tM$model == 'MGM'){
+		# Rui and Chaochao add code here for:
+		# Multigroup model, short sales not allowed
+		# In particular, you must identify/assign the following components:
+		# op$COV <- covariance matrix of the stocks
+		# tM$rho <- correlation matrix (not covariance matrix),
+		#           may be able to use getCorr function
+		
+		
+		
+		
+		
 	}
+	#if(tM$model == 'MIM' && tM$shorts){
+		# Rui and Chaochao add code here for: multi-index model, short sales allowed
+		# In particular, you must identify the following components:
+		# op$COV <- covariance matrix of the stocks
+		# tM$rho <- correlation matrix (not covariance matrix),
+		#           may be able to use getCorr function
+		
+		
+		
+		
+	#} else if(tM$model == 'MIM'){
+		# Rui and Chaochao add code here for: multi-index model, no shorts allowed
+		# In particular, you must identify the following components:
+		# op$COV <- covariance matrix of the stocks
+		# tM$rho <- correlation matrix (not covariance matrix),
+		#           may be able to use getCorr function
+		
+		
+		
+		
+	#}
 	return(tM)
 }
 

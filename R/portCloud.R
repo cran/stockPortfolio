@@ -2,7 +2,7 @@
 function(model, riskRange=2, detail=25, N=3000, add=TRUE, col=c('#55550044'), pch=20, subSamp=1000, xlim='default', ylim='default', xlab='Risk', ylab='Return', ...){
 	#===> must have short-selling <===#
 	if(!model$shorts){
-		stop("Short selling must be permitted for portCloud.\n")
+		stop("Short selling must be permitted.\n")
 	}
 	
 	#===> identifying how to distribute points <===#

@@ -10,9 +10,13 @@ function(x, xlab='Risk', ylab='Return', main='Risk and Return of Stocks', addNam
 		ylim <- ylim + c(-1,1)*diff(ylim)/10
 	}
 	if(optPortOnly){
-		plot(x$risk, x$R, xlab=xlab, ylab=ylab, main=main, xlim=xlim, ylim=ylim, col=colOP, pch=pchOP, type=type, ...)
+		plot(x$risk, x$R, xlab=xlab, ylab=ylab,
+			main=main, xlim=xlim, ylim=ylim, col=colOP,
+			pch=pchOP, type=type, ...)
 	} else {
-		plot(pR, xlab=xlab, ylab=ylab, main=main, addNames=addNames, pos=pos, xlim=xlim, ylim=ylim, col=col, pch=pch, type=type, ...)
+		plot(pR, xlab=xlab, ylab=ylab, main=main,
+			addNames=addNames, pos=pos, xlim=xlim,
+			ylim=ylim, col=col, pch=pch, type=type, ...)
 		if(!noOptPort){
 			points(x$risk, x$R, col=colOP, pch=pchOP, type=type)
 		}

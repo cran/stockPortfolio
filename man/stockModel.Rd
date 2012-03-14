@@ -9,7 +9,11 @@
 Input an object of class \code{"stockReturns"} and select a model. Available choices are \code{"none"}, \code{"SIM"} (single index model), \code{"CCM"} (constant correlation model), and \code{"MGM"} (multigroup model).
 }
 \usage{
-stockModel(stockReturns, drop = NULL, Rf = 0, shortSelling = c("y", "n"), model = c("none", "SIM", "CCM", "MGM"), industry = NULL, index = NULL, get = c("overlapOnly", "all"), freq = c("month", "week", "day"), start = "1970-01-01", end = NULL, recentLast = FALSE, rawStockPrices = FALSE)
+stockModel(stockReturns, drop = NULL, Rf = 0, shortSelling = c("y", "n"),
+   model = c("none", "SIM", "CCM", "MGM"), industry = NULL, index = NULL,
+   get = c("overlapOnly", "all"), freq = c("month", "week", "day"),
+   start = "1970-01-01", end = NULL, recentLast = FALSE,
+   rawStockPrices = FALSE)
 }
 \arguments{
   \item{stockReturns}{ An object of class \code{"stockReturns"}. Additionally, a character vector of tickers can also be used here, in which case also see argument \code{freq}, \code{get}, \code{start}, and \code{end}. Additionally, an object of class \code{"stockModel"} can also be input here, which will permit model adjustments, including switching the model altogether. Finally, stock data can also be submitted here as a matrix; the column names should be the ticker names and the row names should be the dates of the returns, \code{YYYY-MM-DD}. Additionally, for outside data sets where the oldest stock return is in row 1 (and not the last row), see argument \code{recentLast}.}

@@ -1,5 +1,6 @@
 \name{getReturns}
 \alias{getReturns}
+\alias{stockReturns}
 \alias{print.stockReturns}
 \alias{summary.stockReturns}
 \alias{plot.stockReturns}
@@ -10,7 +11,8 @@
 Download a collection of stock data from Yahoo Finance.
 }
 \usage{
-getReturns(ticker, freq = c("month", "week", "day"), get = c("overlapOnly", "all"), start = "1970-01-01", end = NULL)
+getReturns(ticker, freq = c("month", "week", "day"),
+   get = c("overlapOnly", "all"), start = "1970-01-01", end = NULL)
 }
 \arguments{
   \item{ticker}{ A character vector where each element is a ticker.}
@@ -26,6 +28,7 @@ getReturns(ticker, freq = c("month", "week", "day"), get = c("overlapOnly", "all
   \item{period }{ How frequently stock returns are included in the data.}
   \item{start }{ The oldest date for which stock returns are included.}
   \item{end }{ The most recent date for which stock returns are included.}
+  \item{full }{ A list, where each item is a data frame containing information from the CSV file downloaded from Yahoo Finance.}
 }
 \author{David Diez and Nicolas Christou}
 

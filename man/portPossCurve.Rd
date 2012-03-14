@@ -5,7 +5,9 @@
 Plot the portfolio possibilities curve or the efficient frontier for models that permit short-selling.
 }
 \usage{
-portPossCurve(model, riskRange = 2, detail = 100, effFrontier = FALSE, add = FALSE, type = "l", xlab = "Risk", ylab = "Expected Return", doNotPlot = FALSE, ...)
+portPossCurve(model, riskRange = 2, detail = 100, effFrontier = FALSE,
+   add = FALSE, type = "l", xlab = "Risk", ylab = "Expected Return",
+   doNotPlot = FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -26,8 +26,10 @@ The single index model results in a vector of parameter estimates, which is typi
 data(stock94)
 data(stock99)
 data(stock94Info)
-sim1 <- stockModel(stock94, model='SIM', industry=stock94Info$industry, index=25)
-sim2 <- stockModel(stock99, model='SIM', industry=stock94Info$industry, index=25)
+sim1 <- stockModel(stock94, model='SIM',
+                   industry=stock94Info$industry, index=25)
+sim2 <- stockModel(stock99, model='SIM',
+                   industry=stock94Info$industry, index=25)
 
 #===> adjust the betas <===#
 # the output is a new stock model

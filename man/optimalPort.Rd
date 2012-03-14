@@ -24,6 +24,11 @@ optimalPort(model, Rf = NULL, shortSell = NULL, eps = 10^(-4))
   \item{R }{ The estimated return associated with allocation \code{X}.}
   \item{risk }{ The estimated risk associated with allocation \code{X}.}
 }
+\details{
+When the function returns an error regarding the validity of \code{Rf}, the risk free rate of return, this is not a bug. That error message means the \code{Rf} is too large; it is larger than the expected return of the vertex of the portfolio possibilities curve (the left-most point on this curve). When this occurs, no tangent line can be created along the efficient frontier. The implication is that a lower Rf should be specified to identify a portfolio along the efficient frontier of the portfolio possibilities curve.
+
+This Rf issue has happened relatively frequently with stocks in the last few years. So many stocks are down, which sometimes results in a minimum risk portfolios with an expected return that is negative.
+}
 \references{
 Markowitz, Harry. "Portfolio Selection Efficient Diversification of Investments." New York: John Wiley and Sons, 1959.
 
@@ -67,4 +72,20 @@ plot(opMgm1, addNames=TRUE)
 #===> additional plotting 2 <===#
 plot(opMgm1, optPortOnly=TRUE, colOP=2, pchOP=2)
 points(opMgm2, colOP=2, pchOP=4)
+
+#=====> Watch out -- choosing Rf too large causes errors <=====#
+data(stock99)
+data(stock94Info)
+non <- stockModel(stock99, drop=25, model='none',
+	industry=stock94Info$industry)
+portPossCurve(non)
+opTemp <- optimalPort(non, Rf=-10^5)
+points(opTemp)
+## Error if Rf >= vertex (y value)
+#  optimalPort(non, 0.02)
+#  optimalPort(non, opTemp$R)
+#  optimalPort(non, opTemp$R+0.01)
+#  optimalPort(non, opTemp$R-0.01)
+## May give error if Rf too close to vertex
+#  optimalPort(non, opTemp$R-0.0001)
 }

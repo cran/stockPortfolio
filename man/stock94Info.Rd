@@ -18,6 +18,7 @@ Yahoo Finance.
 \examples{
 data(stock94Info)
 data(stock04)
-sm <- stockModel(stock04, model='SIM', index=25, industry=stock94Info$industry)
+sm <- stockModel(stock04, model='SIM', index=25,
+                 industry=stock94Info$industry)
 }
 \keyword{datasets}

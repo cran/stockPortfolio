@@ -41,6 +41,9 @@ function(theData, model=NULL, X=NULL, newestFirst=TRUE, isReturns=NULL){
 		if(is.null(names(X))[1]){
 			names(X) <- dataNames
 		}
+		if(all(c(1,0) == zapsmall(c(sum(X),0)))){
+			warning("Allocation X was standardized")
+		}
 	}
 	theOrder <- match(names(X), dataNames)
 	tD <- theData[theOrder]

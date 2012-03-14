@@ -11,18 +11,26 @@ function(x, xlab='Risk', ylab='Return', main='Risk and Return of Stocks', addNam
 	} else if(col[1] == 'heatGradient'){
 		tMin <- min(x$X)
 		tMax <- max(x$X)
-		inte <- (x$X-tMin)/(tMax-tMin)
-		inte <- round(99*inte, 0)
-		inteSupp <- 99-inte
-		inte <- as.character(inte)
-		inteSupp <- as.character(inteSupp)
-		inte[nchar(inte)<2] <- paste('0',inte[nchar(inte)<2],sep='')
-		temp <- paste('0',inteSupp[nchar(inteSupp)<2],sep='')
-		inteSupp[nchar(inteSupp)<2] <- temp
-		col <- paste('#', inte, '00', inteSupp, sep='')
+		inte <- (x$X-0)/(max(c(tMax,tMin))+0.01)
+		blue         <- inte
+		blue[inte<0] <- 0
+		red          <- -inte
+		red[inte>0]  <- 0
+		cols  <- cbind(red, 0, blue)
+		means <- apply(cols, 1, mean)
+		cols  <- cols+1-means
+		cols  <- cols - apply(cols, 1, max) + apply(cols, 1, min)
+		cols  <- cols - 0.15
+		temp  <- apply(cols, 1, min)
+		temp[temp>0] <- 0
+		cols  <- cols - temp
+		temp  <- apply(cols, 1, max)
+		cols  <- cols/(temp+0.12)
+		col   <- rgb(cols[,1], cols[,2], cols[,3])
 	} else if(length(col) < length(x$X)){
 		col <- rep(col, length(x$X))
 	}
-	plot(x$model, xlab=xlab, ylab=ylab, main=main, addNames=addNames, pos=pos, ylim=ylim, col=col, ...)
+	plot(x$model, xlab=xlab, ylab=ylab, main=main,
+		addNames=addNames, pos=pos, ylim=ylim, col=col, ...)
 }
 

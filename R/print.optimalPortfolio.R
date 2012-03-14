@@ -7,6 +7,8 @@ function(x, ...){
 		cat('single index model\n')
 	} else if(x$model$model == 'MGM'){
 		cat('multigroup model\n')
+	} else if(x$model$model == 'MIM'){
+		cat('multi-index model\n')
 	} else if(x$model$model == 'CCM'){
 		cat('constant correlation model\n')
 	}

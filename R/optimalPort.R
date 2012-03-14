@@ -7,20 +7,22 @@ function(model, Rf=NULL, shortSell=NULL, eps=10^(-4)){
 	if(!is.null(shortSell)){
 		model$shorts <- ifelse(shortSell[1] %in% c('y', 'yes', 'Y', 'Yes', 'YES', TRUE), TRUE, FALSE)
 	}
-	if(!model$shorts & model$model == 'MGM'){
-		warning('Short sales are always permitted under the multigroup model.')
-		model$shorts <- TRUE
-	}
 	if(!model$shorts & model$model == 'none'){
 		warning('Short sales are always permitted when no model is specified.')
 		model$shorts <- TRUE
 	}
 	
 	#===> ensuring Rf is reasonable for the data <===#
-	if(model$Rf > -10^6){
-		temp <- optimalPort(model, Rf=-10^7, eps=eps)
+	if(model$Rf > -100){
+		temp <- optimalPort(model, Rf=-101, eps=eps)
 		if(model$Rf >= temp$R-eps){
-			stop("Rf may not be valid for this stock model.\n")
+			errMess <- paste("Rf must be less than",
+							round(temp$R-0.005, 4))
+			errMess <- paste(errMess,
+						"\nRf may not be valid for this stock model.",
+						"\nNote that this message does indicate NOT a bug.",
+						"\nSee the optimalPort help file for more info.")
+			stop(errMess)
 		}
 	}
 	
@@ -125,7 +127,7 @@ function(model, Rf=NULL, shortSell=NULL, eps=10^(-4)){
 		op$X    <- X
 		op$R    <- ps$R
 		op$risk <- sqrt(ps$VAR)
-	} else if(model$model == 'MGM'){
+	} else if(model$model == 'MGM' && model$shorts){
 		ind  <- model$industry
 		indU <- unique(model$industry)
 		N    <- rep(NA, length(indU))
@@ -134,11 +136,16 @@ function(model, Rf=NULL, shortSell=NULL, eps=10^(-4)){
 		}
 		I3    <- diag(rep(1,length(indU)))
 		A     <- I3 + model$rho*N/(1-diag(model$rho))
+		temp  <- diag(model$rho) == 1
+		A[temp] <- (1 + model$rho*N/(1-diag(model$rho)))[temp]
 		C     <- rep(NA, length(indU))
 		ratio <- (model$R - model$Rf) / model$sigma
 		for(i in 1:length(indU)){
 			theI <- (ind == indU[i])
 			C[i] <- sum(ratio[theI]/(1-model$rho[i,i]))
+			if(model$rho[i,i] == 1){
+				C[i] <- sum(ratio[theI])
+			}
 		}
 		PHI        <- as.numeric(solve(A) %*% C)
 		names(PHI) <- indU
@@ -147,6 +154,9 @@ function(model, Rf=NULL, shortSell=NULL, eps=10^(-4)){
 			k     <- which(indU == ind[i])
 			cStar <- sum(model$rho[k,] * PHI)
 			den   <- model$sigma[i] * (1-model$rho[k,k])
+			if(model$rho[k,k] == 1){
+				den <- model$sigma[i]
+			}
 			z[i]  <- (ratio[i] - cStar) / den
 		}
 		X        <- z / sum(z)
@@ -155,7 +165,50 @@ function(model, Rf=NULL, shortSell=NULL, eps=10^(-4)){
 		op$X     <- X
 		op$R     <- ps$R
 		op$risk  <- sqrt(ps$VAR)
+	} else if(model$model == 'MGM'){
+		# Rui and Chaochao add code here for:
+		# Multigroup model, no short sales allowed
+		# Some code above in the short sales allowed case may be useful
+		# In particular, you must identify/assign the following components:
+		# op$X <- the optimal portfolio allocation,
+		#         where the vector elements are named (see ?names)
+		# op$R <- the expected return of the optimal portfolio
+		# op$risk <- the expected risk (st. dev.) of the optimal portfolio)
+		
+		
+		
+		
+		
+	#} else if(model$model == 'MIM' && model$shorts){
+		# Rui and Chaochao add code here for:
+		# Multi-index model, short sales allowed
+		# In particular, you must identify/assign the following components:
+		# op$X <- the optimal portfolio allocation,
+		#         where the vector elements are named (see ?names)
+		# op$R <- the expected return of the optimal portfolio
+		# op$risk <- the expected risk (st. dev.) of the optimal portfolio)
+		
+		
+		# If it is useful to combine the short sale and no short sale code,
+		# then eliminate the if/else statement below and the "&& model$shorts"
+		# code in the if statement immediately above
+		
+		
+		
+		
+	#} else if(model$model == 'MIM'){
+		# Rui and Chaochao add code here for:
+		# Multi-index model, short sales not allowed
+		# In particular, you must identify/assign the following components:
+		# op$X <- the optimal portfolio allocation,
+		#         where the vector elements are named (see ?names)
+		# op$R <- the expected return of the optimal portfolio
+		# op$risk <- the expected risk (st. dev.) of the optimal portfolio)
+		
+		
+		
+		
+		
 	}
 	return(op)
 }
-

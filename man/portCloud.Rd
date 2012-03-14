@@ -5,7 +5,9 @@
 Given a model with short-selling permitted, \code{portCloud} plots a cloud of possible portfolios.
 }
 \usage{
-portCloud(model, riskRange = 2, detail = 25, N = 3000, add = TRUE, col = c("#55550044"), pch = 20, subSamp = 1000, xlim = "default", ylim = "default", xlab = "Risk", ylab = "Return", ...)
+portCloud(model, riskRange = 2, detail = 25, N = 3000, add = TRUE,
+   col = c("#55550044"), pch = 20, subSamp = 1000, xlim = "default",
+   ylim = "default", xlab = "Risk", ylab = "Return", ...)
 }
 \arguments{
   \item{model}{ An object of class \code{"stockModel"}.}

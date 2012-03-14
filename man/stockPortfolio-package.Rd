@@ -12,9 +12,9 @@ The package \code{stockPortfolio} is a quantitative approach to portfolio alloca
 \tabular{ll}{
 Package: \tab stockPortfolio\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2009-10-21\cr
-License: \tab GPL-2\cr
+Version: \tab 1.2\cr
+Date: \tab 2012-03-14\cr
+License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
 

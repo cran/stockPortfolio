@@ -10,7 +10,8 @@
 Test a portfolio allocation on a new data set. This function is useful for comparing portfolios under different data scenarios.
 }
 \usage{
-testPort(theData, model = NULL, X = NULL, newestFirst = TRUE, isReturns = NULL)
+testPort(theData, model = NULL, X = NULL, newestFirst = TRUE,
+   isReturns = NULL)
 }
 \arguments{
   \item{theData}{ The data set to be used. This may be an object of class \code{"stockReturns"}, a vector of \code{1} plus the returns on each stock, or a matrix of stock returns where rows are ordered observations and columns represent individual stocks (see also argument \code{newestFirst}). The matrix may also be stock prices, in which case see argument \code{isReturns}.}
